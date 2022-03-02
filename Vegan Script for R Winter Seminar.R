@@ -1,4 +1,4 @@
-setwd("C:/Users/Charlie/Desktop/SCR Arthropod Survey")
+#set wd
 ant_full<-read.csv("Riparian Community Final.csv")
 Ant_community<-ant_full[,6:23]
 ant.info <- ant_full[,1:5]
@@ -10,6 +10,9 @@ ant.nmds <- metaMDS(Ant_community, k=2, model = "global", distance = "bray")
 ant.nmds$stress
 plot(ant.nmds)
 stressplot(ant.nmds)
+single_mds <- monoMDS(ant.dist, k = 2, model = "global")
+plot(single_mds)
+single_mds$stress
 
 ###NMDS plot
 ant_full$Habitat.Type<-as.factor(ant_full$Habitat.Type)
@@ -94,9 +97,6 @@ ordiellipse(ant.nmds, groups = ant_full$Habitat.Type, draw = "polygon",
             label = TRUE, lty = 1)
 plot(ef2, p.max = 0.05)
 
-
-
-
 ###db-rda (distance based redundancy analysis)
 full_dbRDA<-capscale(Ant_community ~Mulch + Litter + Soil + soil.moisture +
                      percent.clay + percent.sand + canopy.cover + Erigeron.canadensis +
@@ -107,7 +107,6 @@ ordiplot(full_dbRDA)
 
 anova(full_dbRDA, by="terms", peru=200)
 anova(full_dbRDA, by="axis")
-
 
 ###Variance partitioning to differentiate plants, other env factors, and locality/season?
 ant.dist<- vegdist(Ant_community, method = "bray")
